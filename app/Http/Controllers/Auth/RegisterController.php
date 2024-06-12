@@ -25,7 +25,7 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('/index');
+        return redirect()->route('blog.index');
       
 
     $data = $request->all();

@@ -21,13 +21,13 @@
         </li>
         @auth
         <li class="nav-item">
-          <a class="nav-link" href="/profil">Profil</a>
+          <a class="nav-link" href="/profile">Profil</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/blog/new">Créer PUB</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Messages</a>
+          <a class="nav-link" href="/friends">Mes amis</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('friend-requests.pending') }}">Demandes d'amis</a>

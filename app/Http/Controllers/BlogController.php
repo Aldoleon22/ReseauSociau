@@ -41,6 +41,13 @@ class BlogController extends Controller
 
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect()->route('auth.login');
+        }
+
+        $posts = Post::all(); // Récupérez vos publications ici
+        return view('blog.index', compact('posts'));
+    
         $posts = Post::with('user')->get();
         return view('blog.index', compact('posts'));
    

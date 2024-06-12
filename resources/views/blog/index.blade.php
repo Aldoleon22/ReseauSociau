@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- Liste des contenus créés -->
-
+@auth
 @if($posts !== NULL and count($posts) > 0)
 <div class="container mt-5">
     <div class="row">
@@ -16,13 +16,19 @@
                     <div class="media mb-3">
                         @if($post->user)
                             <img src="{{ asset('storage/' . $post->user->profile_picture) }}" class="mr-3 rounded-circle" alt="Photo de profil" style="width: 64px; height: 64px;">
+                            <div class="media-body">
+                                <h5 class="mt-0">{{ $post->user->name }}</h5>
+                                <small class="text-muted">{{ $post->created_at->format('d M Y, H:i') }}</small>
+                            </div>
+                        @elseif(!auth()->check())
+                            {{-- Rediriger vers la page de connexion --}}
+                            {{ redirect()->route('auth.login') }}
                         @else
                             <img src="{{ asset('images/default-profile.png') }}" class="mr-3 rounded-circle" alt="Photo de profil par défaut" style="width: 64px; height: 64px;">
+                            <div class="media-body">
+                                <h5 class="mt-0">Utilisateur non trouvé</h5>
+                            </div>
                         @endif
-                        <div class="media-body">
-                            <h5 class="mt-0">{{ $post->user->name }}</h5>
-                            <small class="text-muted">{{ $post->created_at->format('d M Y, H:i') }}</small>
-                        </div>
                         <!-- Menu déroulant pour les options d'édition et de suppression -->
                         <div class="dropdown ml-auto">
                             <button style="background: transparent; border: none;">
@@ -92,6 +98,7 @@
     </div>
 </div>
 @endif
+@endauth
 
 <!-- Scripts Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

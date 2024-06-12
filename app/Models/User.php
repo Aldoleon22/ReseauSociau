@@ -28,20 +28,34 @@ class User extends Authenticatable
 }
 
 
-public function receivedFriendships()
+public function sentFriendRequests()
+{
+    return $this->hasMany(Friendship::class, 'sender_id');
+}
+
+// Relations d'amitié reçues
+public function receivedFriendRequests()
 {
     return $this->hasMany(Friendship::class, 'receiver_id');
 }
 
-public function friends()
-{
-    return $this->belongsToMany(User::class, 'friendships', 'sender_id', 'receiver_id')
-                ->wherePivot('status', 'accepted')
-                ->withTimestamps();
-                 return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
-                ->withTimestamps();
+// Amis
+
+    public function friends()
+    {
+        $friendsOfMine = $this->belongsToMany(User::class, 'friendships', 'sender_id', 'receiver_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'accepted',true)
+            ->get();
+
+        $friendsOf = $this->belongsToMany(User::class, 'friendships', 'receiver_id', 'sender_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'accepted', true)
+            ->get();
+
+        return $friendsOfMine->merge($friendsOf);
+    }
 }
 
-}
 
 

@@ -77,4 +77,10 @@ class RegisterController extends Controller
         $user = Auth::user();
         return view('profil', compact('user'));
     }
+    public function friends()
+    {
+        $user = Auth::user();
+        $friends = $user->friends; 
+        return view('users.friend_user', compact('friends_user'));
+    }
 }
